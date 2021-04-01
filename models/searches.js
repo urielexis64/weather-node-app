@@ -24,12 +24,15 @@ class Searches {
 			});
 			const resp = await instance.get();
 
-			console.log(resp.data);
+			return resp.data.features.map((city) => ({
+				id: city.id,
+				name: city.place_name,
+				lng: city.center[0],
+				lat: city.center[1],
+			}));
 		} catch (error) {
 			return [];
 		}
-
-		return [];
 	}
 }
 
