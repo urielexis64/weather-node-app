@@ -1,10 +1,12 @@
-const axios = require("axios");
+const fs = require("fs");
 
+const axios = require("axios");
 class Searches {
-	history = ["Mexico", "Espana", "Culiacan"];
+	history = [];
+	dbPath = "./db/database.json";
 
 	constructor() {
-		//TODO: read DB
+		this.readDB();
 	}
 
 	get mapboxParams() {
@@ -60,6 +62,29 @@ class Searches {
 			};
 		} catch (error) {
 			return [];
+		}
+	}
+
+	addHistory(place = "") {
+		if (this.history.includes(place)) return;
+
+		this.history = this.history.splice(0, 5);
+		this.history.unshift(place);
+		this.saveOnDB();
+	}
+
+	saveOnDB() {
+		const payload = {
+			history: this.history,
+		};
+		fs.writeFileSync(this.dbPath, JSON.stringify(payload));
+	}
+
+	readDB() {
+		if (fs.existsSync(this.dbPath)) {
+			const localData = fs.readFileSync(this.dbPath, {encoding: "utf-8"});
+			const data = JSON.parse(localData);
+			this.history = data.history;
 		}
 	}
 }
