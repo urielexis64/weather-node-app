@@ -6,6 +6,7 @@ Una aplicación de consola en la cual puedes consultar el clima de cualquier lug
 
 -   colors
 -   inquirer
+-   dotenv
 -   fs
 -   axios
 
