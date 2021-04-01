@@ -21,17 +21,23 @@ const main = async () => {
 
 				// * Select place
 				const placeId = await listPlaces(places);
-				const selectedPlace = places.find((place) => place.id === placeId);
+				if (placeId === 0) break;
+
+				const {name, lat, lng} = places.find((place) => place.id === placeId);
+
 				// * Weather
+				const {desc, temp, min, max} = await searches.placeWeather(lat, lng);
 
 				// * All results
-				console.log("Place info\n".green);
-				console.log("Place: ", selectedPlace.name);
-				console.log("Latitude: ", selectedPlace.lat);
-				console.log("Longitude: ", selectedPlace.lng);
-				console.log("Temperature: ");
-				console.log("Min: ");
-				console.log("Max: ");
+				console.clear();
+				console.log("\nPlace info\n".bgGreen.white);
+				console.log("Place: ", name.yellow);
+				console.log("Latitude: ", lat);
+				console.log("Longitude: ", lng);
+				console.log("Temperature: ", temp);
+				console.log("Min: ", min);
+				console.log("Max: ", max);
+				console.log("Description: ", desc.yellow);
 
 				break;
 			case 2:
